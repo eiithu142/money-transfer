@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<h1>Payment</h1>
+<body>
+    <form id="form">
+ 
+        <div class="field">
+          <label for="name">Transfer_name</label>
+          <input type="text" name="name" id="name" required placeholder="Transfer_name">
+        </div>
+        <div class="field">
+          <label for="id">Transfer_id</label>
+          <input type="text" name="id" id="id"required placeholder="Transfer_id">
+        </div>
+        <div class="field">
+          <label for="note">Note</label>
+          <input type="text" name="note" id="note" required placeholder="note">
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="text" name="email" id="email"required placeholder="email">
+        </div>
+       
+      
+        <input type="submit" id="button" value="Submit" >
+      </form>
+      <div class="bankname">
+      <p>Bank_Name  = Thar wai phyo </p>
+      <p>Bank_Number = 0987654321 </p>
+      <p>လွှဲ ရမည့် အမည် = Thar wai phyo</p>
+      <p>လွှဲ ရမည့် နံပတ် = 0987654321</p>
+      <p>After transferring the money, please add the name and id of the transferor, and the amount</p>      
+      <p>ငွေလွှဲ ပြောင်း ပြီးပါက လွှဲ ‌ပြောင်းပေးသည့် အမည်နှင့် id  ,ငွေပမာဏ   ထည့် ပေးပါ</p>
+
+    
+
+    </div>
+
+      <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+      
+      <script type="text/javascript">
+        emailjs.init('80uAcGkKQNbay0xpB')
+        const btn = document.getElementById('button');
+
+document.getElementById('form')
+ .addEventListener('submit', function(event) {
+   event.preventDefault();
+
+   btn.value = 'Sending...';
+
+   const serviceID = 'service_o37pq2x';
+   const templateID = 'template_099mw1b';
+
+   emailjs.sendForm(serviceID, templateID, this)
+    .then(() => {
+      btn.value = 'Send Email';
+      alert('Sent!');
+    }, (err) => {
+      btn.value = 'Send Email';
+      alert(JSON.stringify(err));
+    });
+});
+      </script>
+</body>
+<style>
+    .bankname{
+      background-color: bisque;
+    }
+    h1{
+        align-items: center;
+        justify-content: center;
+        display: grid;
+    }
+    #form{
+        border: 1px solid black;
+        align-items: center;
+        display: grid;
+        border-radius: 20px;
+        justify-content: center;
+        background-color: rgb(255, 255, 255);
+    }
+    .field {
+  margin-bottom: 10px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  color: #000000;
+}
+
+.field input {
+  display: block;
+  min-width: 250px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+input[type="submit"] {
+  display: block;
+  padding: 6px 30px;
+  font-size: 14px;
+  background-color: #1e5aff;
+  color: #fff;
+  border: 1px solid beige;
+  border-radius: 20px;
+  height: 50px;
+  border: none
+}
+p{
+    font-size: 20px;
+}
+</style>
+</html>

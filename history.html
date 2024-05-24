@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Order History</h2>
+        <ul id="order-history"></ul>
+
+<script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>        <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    emailjs.init("80uAcGkKQNbay0xpB");  // Replace with your EmailJS user ID
+
+    const orderForm = document.getElementById('order-form');
+    const photoInput = document.getElementById('photo');
+    const uploadedPhoto = document.getElementById('uploaded-photo');
+    const orderHistoryList = document.getElementById('order-history');
+
+    loadOrderHistory();
+
+    orderForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(orderForm);
+        const photo = formData.get('photo');
+
+        navigator.geolocation.getCurrentPosition((position) => {
+            const location = `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`;
+            if (photo.size > 0) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedPhoto.src = e.target.result;
+                    uploadedPhoto.style.display = 'block';
+                    saveOrder(formData, location, e.target.result);
+                    sendEmail(formData, location, e.target.result);
+                };
+                reader.readAsDataURL(photo);
+            } else {
+                saveOrder(formData, location, null);
+                sendEmail(formData, location, null);
+            }
+        }, (error) => {
+            alert('Failed to get location. Please try again.');
+            console.error('Geolocation Error:', error);
+        });
+    });
+
+    function sendEmail(formData, location, photoBase64) {
+        const templateParams = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            item: formData.get('item'),
+            paymentid: formData.get('paymentid'),
+            message: formData.get('message'),
+            location: location,
+            photo: photoBase64 ? photoBase64.split(',')[1] : '',  // Get base64 string without metadata
+        };
+
+        emailjs.send('service_o37pq2x', 'template_099mw1b', templateParams)
+            .then(() => {
+                alert('Order placed successfully!');
+                orderForm.reset();
+                uploadedPhoto.style.display = 'none';
+            }, (error) => {
+                alert('Failed to place order. Please try again.');
+                console.error('EmailJS Error:', error);
+            });
+    }
+
+    function saveOrder(formData, location, photoBase64) {
+        const order = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            paymentid: formData.get('paymentid'),
+            location: location,
+            photo: photoBase64,
+            date: new Date().toLocaleString()
+        };
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
+        addOrderToHistory(order);
+    }
+
+    function loadOrderHistory() {
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        orders.forEach(order => {
+            addOrderToHistory(order);
+        });
+    }
+
+    function addOrderToHistory(order) {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <strong>Name:</strong> ${order.name}<br>
+            <strong>Email:</strong> ${order.email}<br>
+            <strong>payment-id:</strong> ${order.quantity}<br>
+            <strong>Location:</strong> ${order.location}<br>
+            <strong>Date:</strong> ${order.date}<br>
+            ${order.photo ? `<img src="${order.photo}" alt="Order Photo" style="max-width: 100%; height: auto;">` : ''}
+        `;
+        orderHistoryList.appendChild(li);
+    }
+});
+
+    </script>
+</body>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    
+    background-color: #f9f9f9;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+form label {
+    margin-top: 10px;
+}
+
+form input, form select, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    background-color: #ff6363;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+form button:hover {
+    background-color: #e55555;
+}
+
+.photo-display {
+    margin-top: 20px;
+}
+
+#uploaded-photo {
+    max-width: 100%;
+    height: auto;
+    display: none;
+}
+
+#order-history {
+    list-style: none;
+    padding: 0;
+}
+
+#order-history li {
+    background-color: #f0f0f0;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+</style>
+</html>

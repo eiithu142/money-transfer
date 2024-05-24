@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number and Name List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="list-container">
+        <div class="list-item" data-number="1" data-name="Item One">1. Item One</div>
+        <div class="list-item" data-number="2" data-name="Item Two">2. Item Two</div>
+        <div class="list-item" data-number="3" data-name="Item Three">3. Item Three</div>
+        <div class="list-item" data-number="4" data-name="Item Four">4. Item Four</div>
+        <div class="list-item" data-number="5" data-name="Item Five">5. Item Five</div>
+    </div>
+
+    <script >
+        document.addEventListener('DOMContentLoaded', function() {
+    const listItems = document.querySelectorAll('.list-item');
+
+    listItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const number = this.getAttribute('data-number');
+            const name = this.getAttribute('data-name');
+            alert(`Number: ${number}, Name: ${name}`);
+        });
+    });
+});
+
+    </script>
+</body>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+}
+
+.list-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.list-item {
+    padding: 10px 15px;
+    margin: 5px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.list-item:hover {
+    background-color: #e0e0e0;
+}
+
+</style>
+</html>

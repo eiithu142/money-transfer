@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<h1>MLBB Diamond </h1>
+<body>
+    <form id="form">
+      <div class="field">
+        <label for="yourname">Your_name</label>
+        <input type="text" name="yourname" id="yourname" required placeholder="your_name">
+      </div>
+  
+        <div class="field">
+          <label for="name">Ingame_name</label>
+          <input type="text" name="name" id="name" required placeholder="ingame_name">
+        </div>
+        <div class="field">
+          <label for="number">Game ID</label>
+          <input type="text" name="number" id="number"required placeholder="game_id">
+        </div>
+        <div class="field">
+          <label for="amount">Diamont_amount</label>
+          <input type="text" name="amount" id="amount"required placeholder="dm_amount">
+        </div>
+        <div class="field">
+          <label for="email">email</label>
+          <input type="text" name="email" id="email" required placeholder="email">
+        </div>
+        
+        <input type="submit" id="button" value="Submit" >
+      </form>
+      
+      <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+      
+      <script type="text/javascript">
+        emailjs.init('rff8EuUxUGDY7dS7r')
+        const btn = document.getElementById('button');
+
+document.getElementById('form')
+ .addEventListener('submit', function(event) {
+   event.preventDefault();
+
+   btn.value = 'Sending...';
+
+   const serviceID = 'default_service';
+   const templateID = 'template_2i3gzlm';
+
+   emailjs.sendForm(serviceID, templateID, this)
+    .then(() => {
+      btn.value = 'Send Email';
+      alert('Successful !wait 15min');
+    }, (err) => {
+      btn.value = 'Send Email';
+      alert(JSON.stringify(err));
+    });
+});
+      </script>
+</body>
+<style>
+    
+  h1{
+    height: 20%;
+    margin-top: -5px;
+    justify-content: center;
+    align-items: center;
+    display: grid;
+    background-color: #fff;
+  }
+  .field {
+  margin-bottom: 10px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  color: #000000;
+}
+
+.field input {
+  display: block;
+  min-width: 50%;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+input[type="submit"] {
+  display: block;
+  padding: 6px 30px;
+  font-size: 14px;
+  background-color: #215cff;
+  border:1px solid black;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  height: 40px;
+  color: #fff;
+  border: none
+}
+#form{
+  align-items: center;
+  display: grid;
+  justify-content: center;
+  width: 50%;
+  margin-left: 25%;
+  border: 1px solid black;
+  background-color: rgb(13, 9, 9);
+  border-radius: 10px;
+}
+
+</style>
+</style>
+</html>
