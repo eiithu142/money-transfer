@@ -56,7 +56,7 @@
     </div>
     
   
-    <input type="submit" id="button" value="Send Email" >
+    <input type="submit" id="button" value="Submit!" >
   </form>
   
   <script type="text/javascript"
@@ -103,7 +103,7 @@ document.getElementById('form')
    emailjs.sendForm(serviceID, templateID, this)
     .then(() => {
       btn.value = 'Send Email';
-      alert('Sent!');
+      alert('Successfull!waiting 15min!');
     }, (err) => {
       btn.value = 'Send Email';
       alert(JSON.stringify(err));
