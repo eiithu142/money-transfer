@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <div class="feedback-form-container">
+    <h2>Contact</h2>
+    <form id="form">
+        <div class="field">
+            <label for="to_name">Name</label>
+            <input type="text" id="to_name" name="to_name" required>
+        </div>
+        <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+      </div>
+    
+</div>
+        <input type="submit" id="button" value="Send Email" >
+      </form>
+      
+      <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+      
+      <script type="text/javascript">
+        emailjs.init('5KcVxgH37BzdO9971')
+      </script>
+      <script>
+        const btn = document.getElementById('button');
+
+document.getElementById('form')
+ .addEventListener('submit', function(event) {
+   event.preventDefault();
+
+   btn.value = 'Sending...';
+
+   const serviceID = 'default_service';
+   const templateID = 'template_dgr0v0p';
+
+   emailjs.sendForm(serviceID, templateID, this)
+    .then(() => {
+      btn.value = 'Send Email';
+      alert('Sent!');
+    }, (err) => {
+      btn.value = 'Send Email';
+      alert(JSON.stringify(err));
+    });
+});
+
+      </script>
+</body>
+<style>
+    .feedback-form-container {
+      align-items: center;
+      margin-left: 25px;
+      justify-content: center;
+      display: grid;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.feedback-form-container h2 {
+    margin-bottom: 20px;
+
+}
+
+
+
+
+
+
+
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+    .field {
+        align-items: center;
+        justify-content: center;
+        display: grid;
+  margin-bottom: 10px;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  color: #777;
+}
+
+.field input {
+  display: block;
+  min-width: 250px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+input[type="submit"] {
+  margin-left: 30%;
+  height: 40px;
+  padding: 6px 30px;
+  font-size: 14px;
+  background-color: #ff4000;
+  color: #fff;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+</style>
+</html>
